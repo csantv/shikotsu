@@ -46,37 +46,64 @@ create table if not exists patient (
     company_id uuid not null references company
 );
 
+create table if not exists dental_chart (
+    dental_chart_id uuid primary key default uuid_generate_v4(),
+    patient_id uuid references patient,
+    data jsonb
+);
+
 create table if not exists patient_history (
     patient_history_id uuid primary key default uuid_generate_v4(),
     doctor_id uuid not null references doctor,
     patient_id uuid not null references patient,
-    company_id uuid not null references company
+    company_id uuid not null references company,
+    dental_chart_id uuid not null references dental_chart
 );
 
 create table if not exists product (
     product_id uuid primary key default uuid_generate_v4(),
     price numeric not null default 0,
-    description varchar not null default ''
+    name varchar not null default '',
+    company_id uuid not null references company
 );
 
 create table if not exists service (
     service_id uuid primary key default uuid_generate_v4(),
     price numeric not null default 0,
-    description varchar not null default ''
+    title varchar not null default '',
+    description varchar not null default '',
+    company_id uuid not null references company
 );
 
 create table if not exists price_log (
     product_id uuid references product,
     service_id uuid references service,
     price numeric not null default 0,
-    audit_create timestamptz not null default now()
+    audit_create timestamptz not null default now(),
+    company_id uuid not null references company
 );
+
+create type invoice_status as enum ('draft', 'pending', 'paid');
 
 create table if not exists invoice (
     invoice_id uuid primary key default uuid_generate_v4(),
-    is_draft bool not null default true,
+    status invoice_status,
     client_id uuid not null references person,
+    company_id uuid not null references company,
+    total numeric not null default 0
+);
+
+create table if not exists patient_invoice (
+    patient_invoice_id uuid primary key default uuid_generate_v4(),
+    invoice_id uuid references invoice,
+    patient_id uuid references patient,
     company_id uuid not null references company
+);
+
+create table if not exists teeth_status (
+    teeth_status_id uuid primary key default uuid_generate_v4(),
+    description varchar not null default '',
+    is_active bool not null default true
 );
 
 create table if not exists invoice_line (
@@ -86,5 +113,13 @@ create table if not exists invoice_line (
     service_id uuid references service,
     quantity numeric not null default 0,
     price numeric not null default 0, -- in cents
-    discount numeric not null default 0 -- in cents
+    discount numeric not null default 0, -- in cents
+    company_id uuid not null references company
+);
+
+create table if not exists payment (
+    payment_id uuid primary key default uuid_generate_v4(),
+    pay_amount numeric not null default 0,
+    date_paid timestamptz not null default now(),
+    invoice_id uuid references invoice
 );
