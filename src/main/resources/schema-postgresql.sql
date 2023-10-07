@@ -1,4 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+create extension if not exists "uuid-ossp";
 
 create table if not exists role (
     role_id uuid primary key default uuid_generate_v4(),
@@ -49,7 +49,8 @@ create table if not exists patient (
 create table if not exists dental_chart (
     dental_chart_id uuid primary key default uuid_generate_v4(),
     patient_id uuid references patient,
-    data jsonb
+    data jsonb,
+    company_id uuid not null references company
 );
 
 create table if not exists patient_history (
@@ -103,7 +104,8 @@ create table if not exists patient_invoice (
 create table if not exists teeth_status (
     teeth_status_id uuid primary key default uuid_generate_v4(),
     description varchar not null default '',
-    is_active bool not null default true
+    is_active bool not null default true,
+    company_id uuid not null references company
 );
 
 create table if not exists invoice_line (
@@ -121,5 +123,6 @@ create table if not exists payment (
     payment_id uuid primary key default uuid_generate_v4(),
     pay_amount numeric not null default 0,
     date_paid timestamptz not null default now(),
-    invoice_id uuid references invoice
+    invoice_id uuid references invoice,
+    company_id uuid not null references company
 );
