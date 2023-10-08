@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,19 +16,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pe.tcloud.shikotsu.auth.JwtAuthenticationFilter;
-import pe.tcloud.shikotsu.auth.JwtUserDetailsService;
 
 import java.util.List;
 
 @Configuration
 public class WebSecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     public WebSecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter,
-                                    JwtUserDetailsService jwtUserDetailsService) {
+                                    AuthenticationConfiguration authenticationConfiguration) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
 
     @Bean
@@ -68,9 +67,7 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
-        return builder.build();
+    public AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
