@@ -3,9 +3,7 @@ package pe.tcloud.shikotsu.config;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,12 +22,9 @@ import java.util.List;
 @Configuration
 public class WebSecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationConfiguration authenticationConfiguration;
 
-    public WebSecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter,
-                                    AuthenticationConfiguration authenticationConfiguration) {
+    public WebSecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.authenticationConfiguration = authenticationConfiguration;
     }
 
     @Bean
@@ -71,10 +66,5 @@ public class WebSecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 }
