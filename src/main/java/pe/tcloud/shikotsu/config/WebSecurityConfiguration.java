@@ -38,13 +38,14 @@ public class WebSecurityConfiguration {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .anonymous(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .requestCache(cache -> cache.requestCache(nullRequestCache))
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/api/v1/user/auth/**").permitAll();
+                    // prevent authenticated users to log in again
+                    registry.requestMatchers("/api/v1/user/auth").anonymous();
+                    // everything else has to be authenticated
                     registry.requestMatchers("/**").authenticated();
                 })
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(
