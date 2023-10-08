@@ -15,6 +15,7 @@ create table if not exists user_account (
     user_account_id uuid primary key default uuid_generate_v4(),
     username varchar not null,
     password varchar not null,
+    is_active bool not null default true,
     company_id uuid not null references company
 );
 
