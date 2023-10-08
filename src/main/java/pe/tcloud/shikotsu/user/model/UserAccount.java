@@ -9,8 +9,10 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Table(name = "user_account")
 public class UserAccount {
     @Id
+    @GeneratedValue
     private UUID userAccountId;
 
     private String username;
@@ -27,8 +29,8 @@ public class UserAccount {
 
     private boolean isActive;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
     @OneToOne(mappedBy = "userAccount")
