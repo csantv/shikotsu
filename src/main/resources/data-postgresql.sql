@@ -28,6 +28,7 @@ begin
     values ('cvaler', v_password, v_company_id) returning user_account_id into v_user_id;
 
     insert into user_account_role (role_id, user_account_id) values (v_doctor_role_id, v_user_id);
+    insert into user_account_role (role_id, user_account_id) values (v_admin_role_id, v_user_id);
 
     insert into person (name, last_name, user_account_id, company_id)
     values ('Cristhian', 'Valer', v_user_id, v_company_id) returning person_id into v_person_id;
