@@ -1,5 +1,6 @@
 package pe.tcloud.shikotsu.user.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import pe.tcloud.shikotsu.tenant.model.Company;
@@ -18,6 +19,7 @@ public class UserAccount {
     @Column(nullable = false)
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
@@ -29,6 +31,7 @@ public class UserAccount {
     )
     private List<Role> roleList;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean isActive = true;
 
     @ManyToOne

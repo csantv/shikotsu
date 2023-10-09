@@ -1,8 +1,7 @@
-drop schema if exists shikotsu cascade;
-create schema if not exists shikotsu;
-
 create extension if not exists "uuid-ossp";
 
+drop schema if exists shikotsu cascade;
+create schema if not exists shikotsu;
 set search_path = shikotsu, public;
 
 create table if not exists role (

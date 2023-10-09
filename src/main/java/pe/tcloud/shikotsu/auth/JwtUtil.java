@@ -11,6 +11,7 @@ import pe.tcloud.shikotsu.config.JwtConfiguration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -23,24 +24,25 @@ public class JwtUtil {
         this.jwtConfiguration = jwtConfiguration;
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String company) {
         log.debug("Generating jwt token for {}", email);
         var now = LocalDateTime.now().plusYears(1);
         return JWT.create()
                 .withSubject(jwtConfiguration.getSubject())
                 .withClaim("email", email)
+                .withClaim("company", company)
                 .withIssuedAt(new Date())
                 .withIssuer(jwtConfiguration.getIssuer())
                 .withExpiresAt(now.toInstant(ZoneOffset.UTC))
                 .sign(algorithm);
     }
 
-    public String validateTokenAndRetrieveSubject(String token) {
+    public List<String> validateTokenAndRetrieveSubject(String token) {
         JWTVerifier verifier = JWT.require(algorithm)
                 .withSubject(jwtConfiguration.getSubject())
                 .withIssuer(jwtConfiguration.getIssuer())
                 .build();
         DecodedJWT jwt = verifier.verify(token);
-        return jwt.getClaim("email").asString();
+        return List.of(jwt.getClaim("email").asString(), jwt.getClaim("company").asString());
     }
 }

@@ -18,9 +18,10 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String authenticateUser(String username, String password) throws AuthenticationException {
-        var authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+    public String authenticateUser(String username, String company, String password) throws AuthenticationException {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(
+                String.format("%s;%s", username, company), password);
         authenticationManager.authenticate(authenticationToken);
-        return jwtUtil.generateToken(username);
+        return jwtUtil.generateToken(username, company);
     }
 }
