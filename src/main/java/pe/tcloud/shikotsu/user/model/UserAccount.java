@@ -15,24 +15,23 @@ public class UserAccount {
     @GeneratedValue
     private UUID userAccountId;
 
+    @Column(nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @ManyToMany
     @JoinTable(
             name = "user_account_role",
-            joinColumns = @JoinColumn(name = "user_account_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = @JoinColumn(name = "user_account_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
     )
     private List<Role> roleList;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
-    @OneToOne(mappedBy = "userAccount")
-    private Person person;
 }

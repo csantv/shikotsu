@@ -2,26 +2,26 @@ create extension if not exists "uuid-ossp";
 
 create table if not exists role (
     role_id uuid primary key default uuid_generate_v4(),
-    name varchar not null
+    name varchar not null unique
 );
 
 create table if not exists company (
     company_id uuid primary key default uuid_generate_v4(),
-    tax_id varchar not null,
+    tax_id varchar not null unique,
     name varchar not null
 );
 
 create table if not exists user_account (
     user_account_id uuid primary key default uuid_generate_v4(),
-    username varchar not null,
-    password varchar not null,
+    username varchar not null, -- has to be unique inside companies, validated on service layer
+    password varchar not null unique,
     is_active bool not null default true,
     company_id uuid not null references company
 );
 
 create table if not exists user_account_role (
-    role_id uuid references role,
-    user_account_id uuid references user_account,
+    role_id uuid not null references role,
+    user_account_id uuid not null references user_account,
     primary key (role_id, user_account_id)
 );
 
@@ -31,13 +31,14 @@ create table if not exists person (
     last_name varchar not null,
     email varchar,
     birth_date timestamptz,
+    is_active bool not null default true,
     user_account_id uuid references user_account,
     company_id uuid not null references company
 );
 
 create table if not exists doctor (
     doctor_id uuid primary key default uuid_generate_v4(),
-    person_id uuid references person,
+    person_id uuid not null references person,
     company_id uuid not null references company
 );
 
@@ -85,11 +86,9 @@ create table if not exists price_log (
     company_id uuid not null references company
 );
 
-create type invoice_status as enum ('draft', 'pending', 'paid');
-
 create table if not exists invoice (
     invoice_id uuid primary key default uuid_generate_v4(),
-    status invoice_status,
+    status smallint not null default 0,
     client_id uuid not null references person,
     company_id uuid not null references company,
     total numeric not null default 0
@@ -127,3 +126,7 @@ create table if not exists payment (
     invoice_id uuid references invoice,
     company_id uuid not null references company
 );
+
+create table if not exists db_config (
+    initialized bool not null default false
+)

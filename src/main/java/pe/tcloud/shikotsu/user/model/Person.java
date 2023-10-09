@@ -1,9 +1,6 @@
 package pe.tcloud.shikotsu.user.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.*;
 import lombok.Data;
 import pe.tcloud.shikotsu.tenant.model.Company;
 
@@ -14,21 +11,27 @@ import java.util.UUID;
 @Entity
 public class Person {
     @Id
+    @GeneratedValue
     private UUID personId;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String lastName;
 
     private String email;
 
     private Instant birthDate;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private UserAccount userAccount;
+    @Column(nullable = false)
+    private boolean isActive = true;
 
     @OneToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_account_id")
+    private UserAccount userAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 }

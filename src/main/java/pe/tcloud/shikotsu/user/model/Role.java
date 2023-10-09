@@ -1,5 +1,6 @@
 package pe.tcloud.shikotsu.user.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
@@ -14,6 +15,7 @@ public class Role {
     @Id
     private UUID roleId;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roleList")
