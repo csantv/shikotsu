@@ -2,7 +2,6 @@ package pe.tcloud.shikotsu.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pe.tcloud.shikotsu.auth.CustomUser;
@@ -48,8 +47,8 @@ public class UserController {
         var authentication = context.getAuthentication();
         if (authentication instanceof UsernamePasswordAuthenticationToken token) {
             var currentUser = (CustomUser) token.getPrincipal();
-            var userDb = userAccountRepository.findByUsernameAndCompany(currentUser.getUsername(), currentUser.getCompany());
-            userDb.ifPresent(userAccount -> userAccount.setCompany(currentUser.getCompany()));
+            var userDb = userAccountRepository.findByUsernameAndCompanyTaxId(
+                    currentUser.getUsername(), currentUser.getCompanyTaxId());
             return ResponseEntity.of(userDb);
         }
         return ResponseEntity.badRequest().build();
