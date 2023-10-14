@@ -2,17 +2,23 @@ package pe.tcloud.shikotsu.medicalhr.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import pe.tcloud.shikotsu.tenant.model.Company;
 import pe.tcloud.shikotsu.user.model.Person;
 
 import java.util.UUID;
 
-@Data
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 public class Doctor {
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private UUID doctorId;
 
     @JsonIgnore

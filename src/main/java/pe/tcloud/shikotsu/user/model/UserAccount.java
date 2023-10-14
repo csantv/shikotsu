@@ -2,17 +2,22 @@ package pe.tcloud.shikotsu.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import pe.tcloud.shikotsu.tenant.model.Company;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "user_account")
 public class UserAccount {
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private UUID userAccountId;
 
     @Column(nullable = false)

@@ -2,7 +2,7 @@ package pe.tcloud.shikotsu.tenant.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import pe.tcloud.shikotsu.medicalhr.model.Doctor;
 import pe.tcloud.shikotsu.user.model.Person;
 import pe.tcloud.shikotsu.user.model.UserAccount;
@@ -11,10 +11,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 public class Company {
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private UUID companyId;
 
     @Column(nullable = false, unique = true)
