@@ -1,3 +1,5 @@
+set search_path = shikotsu, public;
+
 do $$
 declare
     initialized bool := false;
@@ -23,16 +25,13 @@ begin
     insert into role (name) values ('ADMIN') returning role_id into v_admin_role_id;
 
     insert into company (tax_id, name)
-    values ('0000000000', 'Dental Expert') returning company_id into v_company_id;
+    values ('0000000000', 'Odonto Expert') returning company_id into v_company_id;
 
-    insert into user_account (username, password, company_id)
-    values ('cvaler', v_password, v_company_id) returning user_account_id into v_user_doctor_id;
+    insert into user_account (username, password, company_id, role_id)
+    values ('cvaler', v_password, v_company_id, v_doctor_role_id) returning user_account_id into v_user_doctor_id;
 
-    insert into user_account (username, password, company_id)
-    values ('lipenza', v_password, v_company_id) returning user_account_id into v_user_admin_id;
-
-    insert into user_account_role (role_id, user_account_id)
-    values (v_doctor_role_id, v_user_doctor_id), (v_admin_role_id, v_user_admin_id);
+    insert into user_account (username, password, company_id, role_id)
+    values ('lipenza', v_password, v_company_id, v_admin_role_id) returning user_account_id into v_user_admin_id;
 
     insert into person (name, last_name, user_account_id, company_id)
     values ('Cristhian', 'Valer', v_user_doctor_id, v_company_id) returning person_id into v_person_id;

@@ -26,9 +26,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 new UsernameNotFoundException(String.format("Username %s not found", username)));
         var authorities = new HashSet<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        for (var role: user.getRoleList()) {
-            authorities.add(new SimpleGrantedAuthority(String.format("ROLE_%S", role.getName())));
-        }
+        authorities.add(new SimpleGrantedAuthority(String.format("USER_%s", user.getRole().getName())));
         return new CustomUser(companyStr, user.getUsername(), user.getPassword(), user.isActive(),
                 true, true, true, authorities);
     }

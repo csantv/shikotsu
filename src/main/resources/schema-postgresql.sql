@@ -18,15 +18,10 @@ create table if not exists company (
 create table if not exists user_account (
     user_account_id uuid primary key default uuid_generate_v4(),
     username varchar not null, -- has to be unique inside companies, validated on service layer
-    password varchar not null unique,
+    password varchar not null,
     is_active bool not null default true,
-    company_id uuid not null references company
-);
-
-create table if not exists user_account_role (
-    role_id uuid not null references role,
-    user_account_id uuid not null references user_account,
-    primary key (role_id, user_account_id)
+    company_id uuid not null references company,
+    role_id uuid not null references role
 );
 
 create table if not exists person (

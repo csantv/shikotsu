@@ -1,5 +1,6 @@
 package pe.tcloud.shikotsu.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import pe.tcloud.shikotsu.tenant.model.Company;
@@ -24,14 +25,17 @@ public class Person {
 
     private Instant birthDate;
 
+    @JsonIgnore
     @Column(nullable = false)
     private boolean isActive = true;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 }

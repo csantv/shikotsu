@@ -1,11 +1,10 @@
 package pe.tcloud.shikotsu.user.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import pe.tcloud.shikotsu.tenant.model.Company;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -19,21 +18,18 @@ public class UserAccount {
     @Column(nullable = false)
     private String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_account_role",
-            joinColumns = @JoinColumn(name = "user_account_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
-    )
-    private List<Role> roleList;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     private boolean isActive = true;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;

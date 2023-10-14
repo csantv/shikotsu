@@ -20,7 +20,7 @@ public class JwtUtil {
     private final Algorithm algorithm;
 
     public JwtUtil(JwtConfiguration jwtConfiguration) {
-        this.algorithm = Algorithm.HMAC256(jwtConfiguration.getSecret());
+        this.algorithm = Algorithm.HMAC256(jwtConfiguration.secret());
         this.jwtConfiguration = jwtConfiguration;
     }
 
@@ -28,19 +28,19 @@ public class JwtUtil {
         log.debug("Generating jwt token for {}", email);
         var now = LocalDateTime.now().plusYears(1);
         return JWT.create()
-                .withSubject(jwtConfiguration.getSubject())
+                .withSubject(jwtConfiguration.subject())
                 .withClaim("email", email)
                 .withClaim("company", company)
                 .withIssuedAt(new Date())
-                .withIssuer(jwtConfiguration.getIssuer())
+                .withIssuer(jwtConfiguration.issuer())
                 .withExpiresAt(now.toInstant(ZoneOffset.UTC))
                 .sign(algorithm);
     }
 
     public List<String> validateTokenAndRetrieveSubject(String token) {
         JWTVerifier verifier = JWT.require(algorithm)
-                .withSubject(jwtConfiguration.getSubject())
-                .withIssuer(jwtConfiguration.getIssuer())
+                .withSubject(jwtConfiguration.subject())
+                .withIssuer(jwtConfiguration.issuer())
                 .build();
         DecodedJWT jwt = verifier.verify(token);
         return List.of(jwt.getClaim("email").asString(), jwt.getClaim("company").asString());
