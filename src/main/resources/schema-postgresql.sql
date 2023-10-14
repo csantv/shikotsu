@@ -30,6 +30,8 @@ create table if not exists person (
     last_name varchar not null,
     email varchar,
     birth_date timestamptz,
+    identification_number numeric not null,
+    phone_number numeric,
     is_active bool not null default true,
     user_account_id uuid references user_account,
     company_id uuid not null references company
@@ -44,7 +46,8 @@ create table if not exists doctor (
 create table if not exists patient (
     patient_id uuid primary key default uuid_generate_v4(),
     person_id uuid references person,
-    company_id uuid not null references company
+    company_id uuid not null references company,
+    is_active bool not null default true
 );
 
 create table if not exists dental_chart (

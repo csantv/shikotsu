@@ -48,7 +48,7 @@ public class UserController {
         if (authentication instanceof UsernamePasswordAuthenticationToken token) {
             var currentUser = (CustomUser) token.getPrincipal();
             var user = userAccountRepository.findByUsernameAndCompanyTaxId(
-                    currentUser.getUsername(), currentUser.getCompanyTaxId()).orElseThrow(() ->
+                    currentUser.getUsername(), currentUser.getCompany().getTaxId()).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             if (Objects.equals(user.getRole().getName(), "DOCTOR")) {
                 var doctor = doctorRepository.findByPersonUserAccount(user).orElseThrow(() ->

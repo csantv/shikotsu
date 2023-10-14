@@ -33,8 +33,8 @@ begin
     insert into user_account (username, password, company_id, role_id)
     values ('lipenza', v_password, v_company_id, v_admin_role_id) returning user_account_id into v_user_admin_id;
 
-    insert into person (name, last_name, user_account_id, company_id)
-    values ('Cristhian', 'Valer', v_user_doctor_id, v_company_id) returning person_id into v_person_id;
+    insert into person (name, last_name, identification_number, user_account_id, company_id)
+    values ('Cristhian', 'Valer', 99999999, v_user_doctor_id, v_company_id) returning person_id into v_person_id;
 
     insert into doctor (person_id, company_id) values (v_person_id, v_company_id) returning doctor_id into v_doctor_id;
 

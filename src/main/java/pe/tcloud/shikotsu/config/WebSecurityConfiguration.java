@@ -45,7 +45,7 @@ public class WebSecurityConfiguration {
                 })
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(
                         (request, response, authException) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage())))
+                                response.sendError(HttpServletResponse.SC_BAD_REQUEST, authException.getMessage())))
                 .sessionManagement(configure -> configure.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
         return http.build();

@@ -27,7 +27,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         var authorities = new HashSet<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         authorities.add(new SimpleGrantedAuthority(String.format("USER_%s", user.getRole().getName())));
-        return new CustomUser(companyStr, user.getUsername(), user.getPassword(), user.isActive(),
+        return new CustomUser(user.getCompany(), user.getUsername(), user.getPassword(), user.isActive(),
                 true, true, true, authorities);
     }
 }
