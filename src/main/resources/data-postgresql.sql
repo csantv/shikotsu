@@ -38,6 +38,42 @@ begin
 
     insert into doctor (person_id, company_id) values (v_person_id, v_company_id) returning doctor_id into v_doctor_id;
 
+    insert into teeth_status (name, company_id) values
+    ('APARATO ORTODONTICO FIJO', company_id),
+    ('APARATO ORTODONTICO REMOVIBLE', company_id),
+    ('CARIES', company_id),
+    ('CORONA DEFINITIVA', company_id),
+    ('CORONA TEMPORAL', company_id),
+    ('DESGASTE OCLUSAL/INCISAL', company_id),
+    ('DIASTEMA', company_id),
+    ('DIENTE AUSENTE', company_id),
+    ('DIENTE DISCROMICO', company_id),
+    ('DIENTE ECTOPICO', company_id),
+    ('DIENTE EN CLAVIJA', company_id),
+    ('DIENTE EXTRUIDO', company_id),
+    ('DIENTE INTRUIDO', company_id),
+    ('EDENTULO TOTAL', company_id),
+    ('FRACTURA', company_id),
+    ('GEMINACION/FUSIÓN', company_id),
+    ('GIROVERSION', company_id),
+    ('IMPACTACIÓN', company_id),
+    ('IMPLANTE', company_id),
+    ('MACRODONCIA', company_id),
+    ('MICRODONCIA', company_id),
+    ('MIGRACION', company_id),
+    ('MOVILIDAD', company_id),
+    ('PROTESIS FIJA', company_id),
+    ('PROTESIS REMOVIBLE', company_id),
+    ('PROTESIS REMOVIBLE', company_id),
+    ('PROTESIS TOTAL', company_id),
+    ('REMANENTE RADICULAR', company_id),
+    ('RESTAURACIÓN', company_id),
+    ('RESTAURACIÓN TEMPORAL', company_id),
+    ('SEMI-IMPACTACIÓN', company_id),
+    ('SUPERNUMERARIO', company_id),
+    ('TRANSPOSICION', company_id),
+    ('TRATAMIENTO PULPAR', company_id);
+
     -- done initializing
     insert into db_config (initialized) values (true);
 end;
