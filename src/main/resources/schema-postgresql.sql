@@ -57,12 +57,24 @@ create table if not exists dental_chart (
     company_id uuid not null references company
 );
 
+create table if not exists patient_preliminary_history (
+    patient_preliminary_history_id uuid primary key default uuid_generate_v4(),
+    history_number bigint generated always as identity,
+    doctor_id uuid not null references doctor,
+    patient_id uuid references patient,
+    company_id uuid not null references company,
+    dental_chart_id uuid references dental_chart,
+    audit_create timestamptz not null default now(),
+    audit_update timestamptz not null default now()
+);
+
 create table if not exists patient_history (
     patient_history_id uuid primary key default uuid_generate_v4(),
     doctor_id uuid not null references doctor,
     patient_id uuid not null references patient,
     company_id uuid not null references company,
-    dental_chart_id uuid not null references dental_chart
+    dental_chart_id uuid not null references dental_chart,
+    patient_preliminary_history_id uuid references patient_preliminary_history
 );
 
 create table if not exists product (
