@@ -118,7 +118,6 @@ create table if not exists patient_invoice (
 create table if not exists teeth_status (
     teeth_status_id uuid primary key default uuid_generate_v4(),
     name varchar not null default '',
-    description varchar,
     is_active bool not null default true,
     company_id uuid not null references company
 );
