@@ -14,6 +14,8 @@ import pe.tcloud.shikotsu.medical.repository.PatientPreliminaryHistoryRepository
 import pe.tcloud.shikotsu.medicalhr.repository.DoctorRepository;
 import pe.tcloud.shikotsu.medicalhr.repository.PatientRepository;
 
+import java.time.Instant;
+
 
 @RestController
 @RequestMapping("/api/v1/preliminary")
@@ -59,6 +61,7 @@ public class PatientPreliminaryHistoryWriteController {
         var preliminary = patientPreliminaryHistoryRepository.findById(dto.getPreliminaryHistoryId()).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
         preliminary.setPatient(patient);
+        preliminary.setAuditUpdate(Instant.now());
         patientPreliminaryHistoryRepository.save(preliminary);
         dentalChart.setPatient(patient);
         dentalChart.setData(dto.getDentalChartData());

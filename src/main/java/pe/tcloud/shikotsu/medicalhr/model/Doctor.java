@@ -21,7 +21,6 @@ public class Doctor {
     @ToString.Include
     private UUID doctorId;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
