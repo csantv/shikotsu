@@ -42,6 +42,10 @@ public class PatientPreliminaryHistory {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
+    @OneToOne
+    @JoinColumn(name = "dental_chart_id")
+    private DentalChart dentalChart;
+
     @CreationTimestamp
     private Instant auditCreate;
 
