@@ -64,7 +64,6 @@ begin
     ('MOVILIDAD', v_company_id),
     ('PROTESIS FIJA', v_company_id),
     ('PROTESIS REMOVIBLE', v_company_id),
-    ('PROTESIS REMOVIBLE', v_company_id),
     ('PROTESIS TOTAL', v_company_id),
     ('REMANENTE RADICULAR', v_company_id),
     ('RESTAURACIÓN', v_company_id),
