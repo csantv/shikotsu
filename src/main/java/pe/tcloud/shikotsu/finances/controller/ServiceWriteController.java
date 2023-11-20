@@ -28,13 +28,16 @@ public class ServiceWriteController {
 
     @PostMapping("/new")
     public ResponseEntity<Service> createNew(@AuthenticationPrincipal CustomUser currentUser, @RequestBody NewServiceDTO dto) {
-        var teethStatus = teethStatusRepository.findById(dto.getTeethStatusId()).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND));
         var service = new Service();
+        if (dto.getTeethStatusId() != null) {
+            var teethStatus = teethStatusRepository.findById(dto.getTeethStatusId()).orElseThrow(() ->
+                    new ResponseStatusException(HttpStatus.NOT_FOUND));
+            service.setTeethStatus(teethStatus);
+        }
         service.setCompany(currentUser.getCompany());
         service.setPrice(dto.getPrice());
         service.setTitle(dto.getTitle());
-        service.setTeethStatus(teethStatus);
+        service.setDescription(dto.getDescription());
         service.setMaxDiscount(dto.getMaxDiscount());
         service = serviceRepository.save(service);
         return ResponseEntity.ok(service);
