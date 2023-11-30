@@ -31,4 +31,10 @@ public class PatientPreliminaryHistoryReadController {
         var result = patientPreliminaryHistoryRepository.findAll();
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/allByPatient/{patientId}")
+    public ResponseEntity<List<PatientPreliminaryHistory>> getAllByPatient(@PathVariable UUID patientId) {
+        var result = patientPreliminaryHistoryRepository.findAllByPatientPatientId(patientId);
+        return ResponseEntity.ok(result);
+    }
 }
