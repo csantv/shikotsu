@@ -143,6 +143,15 @@ create table if not exists payment (
     company_id uuid not null references company
 );
 
+create table if not exists document (
+    document_id uuid primary key default uuid_generate_v4(),
+    patient_id uuid references patient,
+    filename varchar,
+    hash varchar,
+    download_url varchar,
+    media_type varchar
+);
+
 create table if not exists db_config (
     initialized bool not null default false
-)
+);
