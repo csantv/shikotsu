@@ -39,9 +39,8 @@ public class PatientReadController {
     }
 
     @GetMapping("/{patientId}")
-    public ResponseEntity<Patient> queryByPatientId(@AuthenticationPrincipal CustomUser currentUser,
-                                                    @PathVariable UUID patientId) {
-        var patient = patientRepository.findByPersonIdAndCompanyId(patientId, currentUser.getCompany().getCompanyId());
+    public ResponseEntity<Patient> queryByPersonId(@PathVariable UUID patientId) {
+        var patient = patientRepository.findById(patientId);
         return ResponseEntity.of(patient);
     }
 }

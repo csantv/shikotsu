@@ -149,7 +149,8 @@ create table if not exists document (
     filename varchar,
     hash varchar,
     download_url varchar,
-    media_type varchar
+    media_type varchar,
+    audit_create timestamptz
 );
 
 create table if not exists db_config (

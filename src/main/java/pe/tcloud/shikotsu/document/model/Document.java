@@ -2,8 +2,10 @@ package pe.tcloud.shikotsu.document.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import pe.tcloud.shikotsu.medicalhr.model.Patient;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +17,6 @@ import java.util.UUID;
 @Table(name = "document")
 public class Document {
     @Id
-    @GeneratedValue
     @EqualsAndHashCode.Include
     @ToString.Include
     private UUID documentId = UUID.randomUUID();
@@ -31,6 +32,9 @@ public class Document {
     private String downloadUrl;
 
     private String mediaType;
+
+    @CreationTimestamp
+    private Instant auditCreate;
 
     @Transient
     private byte[] bytes;

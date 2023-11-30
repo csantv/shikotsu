@@ -40,6 +40,7 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(registry -> {
                     // prevent authenticated users to log in again
                     registry.requestMatchers("/api/v1/user/auth").anonymous();
+                    registry.requestMatchers("/api/v1/document/blob/**").permitAll();
                     // everything else has to be authenticated
                     registry.requestMatchers("/**").authenticated();
                 })
