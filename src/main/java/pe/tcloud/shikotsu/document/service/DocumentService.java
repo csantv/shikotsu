@@ -1,7 +1,7 @@
 package pe.tcloud.shikotsu.document.service;
 
 import org.apache.tika.Tika;
-import org.bouncycastle.crypto.digests.Blake2spDigest;
+import org.bouncycastle.crypto.digests.Blake2bDigest;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,7 +30,7 @@ public class DocumentService {
     }
 
     private String getBlake2BHash(byte[] bytes) {
-        var digest = new Blake2spDigest(null);
+        var digest = new Blake2bDigest();
         digest.update(bytes, 0, bytes.length);
         byte[] hash = new byte[digest.getDigestSize()];
         digest.doFinal(hash, 0);
