@@ -1,8 +1,7 @@
-create extension if not exists "uuid-ossp";
-
 drop schema if exists shikotsu cascade;
 create schema if not exists shikotsu;
 set search_path = shikotsu, public;
+create extension if not exists "uuid-ossp";
 
 create table if not exists role (
     role_id uuid primary key default uuid_generate_v4(),
@@ -60,7 +59,7 @@ create table if not exists dental_chart (
 create table if not exists invoice (
     invoice_id uuid primary key default uuid_generate_v4(),
     status smallint not null default 0,
-    client_id uuid not null references person,
+    client_id uuid references person,
     company_id uuid not null references company,
     total numeric not null default 0,
     lines jsonb
@@ -91,6 +90,13 @@ create table if not exists product (
     product_id uuid primary key default uuid_generate_v4(),
     price numeric not null default 0,
     name varchar not null default '',
+    company_id uuid not null references company
+);
+
+create table if not exists teeth_status (
+    teeth_status_id uuid primary key default uuid_generate_v4(),
+    name varchar not null default '',
+    is_active bool not null default true,
     company_id uuid not null references company
 );
 
@@ -128,12 +134,7 @@ create table if not exists patient_invoice (
     company_id uuid not null references company
 );
 
-create table if not exists teeth_status (
-    teeth_status_id uuid primary key default uuid_generate_v4(),
-    name varchar not null default '',
-    is_active bool not null default true,
-    company_id uuid not null references company
-);
+
 
 create table if not exists payment (
     payment_id uuid primary key default uuid_generate_v4(),
