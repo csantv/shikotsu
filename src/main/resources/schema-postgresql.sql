@@ -57,6 +57,15 @@ create table if not exists dental_chart (
     company_id uuid not null references company
 );
 
+create table if not exists invoice (
+    invoice_id uuid primary key default uuid_generate_v4(),
+    status smallint not null default 0,
+    client_id uuid not null references person,
+    company_id uuid not null references company,
+    total numeric not null default 0,
+    lines jsonb
+);
+
 create table if not exists patient_preliminary_history (
     patient_preliminary_history_id uuid primary key default uuid_generate_v4(),
     history_number bigint generated always as identity,
@@ -64,6 +73,7 @@ create table if not exists patient_preliminary_history (
     patient_id uuid references patient,
     company_id uuid not null references company,
     dental_chart_id uuid references dental_chart,
+    invoice_id uuid references invoice,
     audit_create timestamptz not null default now(),
     audit_update timestamptz not null default now()
 );
@@ -105,9 +115,10 @@ create table if not exists price_log (
 create table if not exists invoice (
     invoice_id uuid primary key default uuid_generate_v4(),
     status smallint not null default 0,
-    client_id uuid not null references person,
+    client_id uuid references person,
     company_id uuid not null references company,
-    total numeric not null default 0
+    total numeric not null default 0,
+    lines jsonb
 );
 
 create table if not exists patient_invoice (
@@ -121,17 +132,6 @@ create table if not exists teeth_status (
     teeth_status_id uuid primary key default uuid_generate_v4(),
     name varchar not null default '',
     is_active bool not null default true,
-    company_id uuid not null references company
-);
-
-create table if not exists invoice_line (
-    line_id uuid primary key default uuid_generate_v4(),
-    invoice_id uuid not null references invoice,
-    product_id uuid references product,
-    service_id uuid references service,
-    quantity numeric not null default 0,
-    price numeric not null default 0, -- in cents
-    discount numeric not null default 0, -- in cents
     company_id uuid not null references company
 );
 

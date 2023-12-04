@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import pe.tcloud.shikotsu.finances.model.Invoice;
 import pe.tcloud.shikotsu.medicalhr.model.Doctor;
 import pe.tcloud.shikotsu.medicalhr.model.Patient;
 import pe.tcloud.shikotsu.tenant.model.Company;
@@ -45,6 +46,10 @@ public class PatientPreliminaryHistory {
     @OneToOne
     @JoinColumn(name = "dental_chart_id")
     private DentalChart dentalChart;
+
+    @OneToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
 
     @CreationTimestamp
     private Instant auditCreate;

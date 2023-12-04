@@ -6,6 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pe.tcloud.shikotsu.auth.CustomUser;
+import pe.tcloud.shikotsu.finances.model.Invoice;
+import pe.tcloud.shikotsu.finances.repository.InvoiceRepository;
 import pe.tcloud.shikotsu.medical.dto.PreliminaryHistoryDTO;
 import pe.tcloud.shikotsu.medical.model.DentalChart;
 import pe.tcloud.shikotsu.medical.model.PatientPreliminaryHistory;
@@ -14,6 +16,7 @@ import pe.tcloud.shikotsu.medical.repository.PatientPreliminaryHistoryRepository
 import pe.tcloud.shikotsu.medicalhr.repository.DoctorRepository;
 import pe.tcloud.shikotsu.medicalhr.repository.PatientRepository;
 
+import java.math.BigInteger;
 import java.time.Instant;
 
 
@@ -24,15 +27,18 @@ public class PatientPreliminaryHistoryWriteController {
     private final DoctorRepository doctorRepository;
     private final DentalChartRepository dentalChartRepository;
     private final PatientRepository patientRepository;
+    private final InvoiceRepository invoiceRepository;
 
     public PatientPreliminaryHistoryWriteController(PatientPreliminaryHistoryRepository patientPreliminaryHistoryRepository,
                                                     DoctorRepository doctorRepository,
                                                     DentalChartRepository dentalChartRepository,
-                                                    PatientRepository patientRepository) {
+                                                    PatientRepository patientRepository,
+                                                    InvoiceRepository invoiceRepository) {
         this.patientPreliminaryHistoryRepository = patientPreliminaryHistoryRepository;
         this.doctorRepository = doctorRepository;
         this.dentalChartRepository = dentalChartRepository;
         this.patientRepository = patientRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @PostMapping("/new")
@@ -44,10 +50,17 @@ public class PatientPreliminaryHistoryWriteController {
         dentalChart.setCompany(doctor.getCompany());
         dentalChart = dentalChartRepository.save(dentalChart);
 
+        var invoice = new Invoice();
+        invoice.setCompany(doctor.getCompany());
+        invoice.setTotal(BigInteger.ZERO);
+        invoice.setStatus(Short.parseShort("0"));
+        invoice = invoiceRepository.save(invoice);
+
         var preliminary = new PatientPreliminaryHistory();
         preliminary.setDoctor(doctor);
         preliminary.setCompany(doctor.getCompany());
         preliminary.setDentalChart(dentalChart);
+        preliminary.setInvoice(invoice);
         preliminary = patientPreliminaryHistoryRepository.save(preliminary);
         return ResponseEntity.ok(preliminary);
     }
