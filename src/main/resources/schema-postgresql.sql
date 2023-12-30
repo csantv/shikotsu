@@ -70,6 +70,7 @@ create table if not exists invoice (
 create table if not exists patient_preliminary_history (
     patient_preliminary_history_id uuid primary key default uuid_generate_v4(),
     history_number bigint generated always as identity,
+    observations varchar not null default '',
     doctor_id uuid not null references doctor,
     patient_id uuid references patient,
     company_id uuid not null references company,
