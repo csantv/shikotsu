@@ -1,5 +1,3 @@
-set search_path = shikotsu, public;
-
 do $$
 declare
     initialized bool := false;
