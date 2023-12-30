@@ -61,6 +61,7 @@ public class PatientPreliminaryHistoryWriteController {
         preliminary.setCompany(doctor.getCompany());
         preliminary.setDentalChart(dentalChart);
         preliminary.setInvoice(invoice);
+        preliminary.setObservations("");
         preliminary = patientPreliminaryHistoryRepository.save(preliminary);
         return ResponseEntity.ok(preliminary);
     }
@@ -75,6 +76,7 @@ public class PatientPreliminaryHistoryWriteController {
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
         preliminary.setPatient(patient);
         preliminary.setAuditUpdate(Instant.now());
+        preliminary.setObservations(dto.getObservations());
         patientPreliminaryHistoryRepository.save(preliminary);
         dentalChart.setPatient(patient);
         dentalChart.setData(dto.getDentalChartData());

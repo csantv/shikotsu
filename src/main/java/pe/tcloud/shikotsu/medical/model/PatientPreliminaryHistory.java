@@ -39,6 +39,9 @@ public class PatientPreliminaryHistory {
     @Column(insertable = false, updatable = false)
     private long historyNumber;
 
+    @Column(nullable = false)
+    private String observations;
+
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;

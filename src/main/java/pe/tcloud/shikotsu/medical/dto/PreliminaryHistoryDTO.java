@@ -16,5 +16,6 @@ public class PreliminaryHistoryDTO {
     private UUID preliminaryHistoryId;
     private UUID dentalChartId;
     private UUID patientId;
+    private String observations;
     private JsonNode dentalChartData;
 }
