@@ -23,9 +23,7 @@ public class Service {
 
     private BigInteger price;
 
-    private String title;
-
-    private String description;
+    private String name;
 
     private BigInteger maxDiscount;
 

@@ -15,7 +15,6 @@ import java.util.UUID;
 public class NewServiceDTO {
     private BigInteger price;
     private BigInteger maxDiscount;
-    private String title;
-    private String description;
+    private String name;
     private UUID teethStatusId;
 }

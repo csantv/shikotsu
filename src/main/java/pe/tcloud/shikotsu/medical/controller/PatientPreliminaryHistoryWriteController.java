@@ -53,7 +53,7 @@ public class PatientPreliminaryHistoryWriteController {
         var invoice = new Invoice();
         invoice.setCompany(doctor.getCompany());
         invoice.setTotal(BigInteger.ZERO);
-        invoice.setStatus(Short.parseShort("0"));
+        invoice.setStatus((short) 0);
         invoice = invoiceRepository.save(invoice);
 
         var preliminary = new PatientPreliminaryHistory();

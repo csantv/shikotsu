@@ -107,8 +107,7 @@ create table if not exists service (
     service_id uuid primary key default uuid_generate_v4(),
     price numeric not null default 0,
     max_discount numeric check ( max_discount >= 0 ),
-    title varchar not null default '',
-    description varchar not null default '',
+    name varchar not null default '',
     company_id uuid not null references company,
     teeth_status_id uuid references teeth_status
 );

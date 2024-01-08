@@ -27,7 +27,8 @@ public class ServiceWriteController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Service> createNew(@AuthenticationPrincipal CustomUser currentUser, @RequestBody NewServiceDTO dto) {
+    public ResponseEntity<Service> createNew(@AuthenticationPrincipal CustomUser currentUser,
+                                             @RequestBody NewServiceDTO dto) {
         var service = new Service();
         if (dto.getTeethStatusId() != null) {
             var teethStatus = teethStatusRepository.findById(dto.getTeethStatusId()).orElseThrow(() ->
@@ -36,8 +37,7 @@ public class ServiceWriteController {
         }
         service.setCompany(currentUser.getCompany());
         service.setPrice(dto.getPrice());
-        service.setTitle(dto.getTitle());
-        service.setDescription(dto.getDescription());
+        service.setName(dto.getName());
         service.setMaxDiscount(dto.getMaxDiscount());
         service = serviceRepository.save(service);
         return ResponseEntity.ok(service);
